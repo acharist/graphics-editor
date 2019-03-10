@@ -1,0 +1,28 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.tools_panel {
+    margin: 0;
+    padding: 0;
+
+    margin-bottom: 20px;
+}
+
+.tools_panel li {
+    cursor: pointer;
+    list-style-type: none;
+}
+
+.tools_panel li:hover {
+    color: #fff;
+    background-color: rgb(68, 116, 248)
+}
+
+.selected_container {
+    margin-bottom: 20px;
+}
+/* 
+.selected_container .selected {
+
+} */
