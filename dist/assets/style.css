@@ -22,7 +22,7 @@ body {
 .selected_container {
     margin-bottom: 20px;
 }
-/* 
-.selected_container .selected {
 
-} */
+.clear_canvas {
+    margin-bottom: 20px;
+}
