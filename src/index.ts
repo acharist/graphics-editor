@@ -6,14 +6,14 @@
     const selected = document.querySelector('.selected');
 
     //Clear canvas button
-    const clearCanvasBtn = <HTMLElement> document.querySelector('.clear_canvas');
+    const clearCanvasBtn = <HTMLElement>document.querySelector('.clear_canvas');
 
     //Create canvas
     const canvas = <HTMLCanvasElement>document.getElementById('canvas');
     const ctx = canvas.getContext('2d');
 
     //Size % color variables with default values
-    let size: number = 5;
+    let size: number = 20;
     let color: string = '#000000';
 
     //Set canvas width & height
@@ -39,6 +39,7 @@
                 break;
             case 'Draw line':
                 //Call func for draw line
+                line(downEvent)(size, color);
                 break;
             case 'Draw rectangle':
                 //Call func for draw rectangle
@@ -51,28 +52,55 @@
         }
     }
 
-    function brush(downEvent: MouseEvent) {
-        return (size: number, color: string) => {
-            const clickX: Array<number> = new Array();
-            const clickY: Array<number> = new Array();
+    const brush = (downEvent: MouseEvent) => (size: number, color: string) => {
+        const clickX: Array<number> = new Array();
+        const clickY: Array<number> = new Array();
 
-            canvas.onmousemove = (moveEvent: MouseEvent) => {
-                clickX.push(moveEvent.offsetX);
-                clickY.push(moveEvent.offsetY);
+        //Set params for btush tool
+        ctx.strokeStyle = color;
+        ctx.lineJoin = 'round';
+        ctx.lineWidth = size;
 
-                ctx.strokeStyle = color;
-                ctx.lineJoin = 'round';
-                ctx.lineWidth = size;
+        //Add coords of click immediately after mouse is pressed down
+        clickX.push(downEvent.offsetX);
+        clickY.push(downEvent.offsetY);
 
-                for (let i: number = 0; i < clickX.length; i++) {
-                    ctx.beginPath();
-                    //Move to with delta X and Y pos
-                    ctx.moveTo(clickX[i - 1], clickY[i - 1]);
-                    ctx.lineTo(clickX[i], clickY[i]);
-                    ctx.closePath();
-                    ctx.stroke();
-                }
+        const draw = (x: Array<number>, y: Array<number>) => {
+            for (let i: number = 0; i < x.length; i++) {
+                ctx.beginPath();
+                //Move to with delta X and Y pos
+                ctx.moveTo(x[i - 1], y[i - 1]);
+                ctx.lineTo(x[i], y[i]);
+                ctx.closePath();
+                ctx.stroke();
             }
+        }
+
+        if (clickX.length || clickY.length) {
+            console.log(clickX, clickY);
+            //Add a value that is less than the original by one
+            clickX.unshift(clickX[0] - 1);
+            clickY.unshift(clickY[0] - 1);
+            //Draw it immediately
+            draw(clickX, clickY);
+        }
+
+        canvas.onmousemove = (moveEvent: MouseEvent) => {
+            clickX.push(moveEvent.offsetX);
+            clickY.push(moveEvent.offsetY);
+
+            draw(clickX, clickY);
+        };
+    }
+
+    const line = (downEvent: MouseEvent) => (size: number, color: string) => {
+        const pointA: Array<object> = new Array();
+        const pointB: Array<number> = new Array();
+
+        pointA.push({ x: downEvent.offsetX, y: downEvent.offsetY });
+
+        canvas.onmousemove = (moveEvent: MouseEvent) => {
+
         }
     }
 
@@ -86,7 +114,7 @@
         canvas.onmousedown = null;
         canvas.onmousemove = null;
     }
-    
+
     canvas.onmouseleave = () => {
         canvas.onmousedown = null;
         canvas.onmousemove = null;
