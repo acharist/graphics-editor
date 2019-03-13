@@ -13,13 +13,23 @@
     const ctx = canvas.getContext('2d');
 
     //Size % color variables with default values
-    let size: number = 20;
+    let size: number = 10;
     let color: string = '#000000';
 
     //Set canvas width & height
     canvas.width = 1200;
     canvas.height = 600;
     canvas.style.border = '1px solid #414141';
+
+    //Set params for all tools
+    ctx.strokeStyle = color;
+    ctx.lineJoin = 'round';
+    ctx.lineWidth = size;
+
+    const mouseup = () => {
+        canvas.onmousedown = null;
+        canvas.onmousemove = null;
+    }
 
     //Set selected on click
     function setSelected(event: MouseEvent) {
@@ -56,11 +66,6 @@
         const clickX: Array<number> = new Array();
         const clickY: Array<number> = new Array();
 
-        //Set params for btush tool
-        ctx.strokeStyle = color;
-        ctx.lineJoin = 'round';
-        ctx.lineWidth = size;
-
         //Add coords of click immediately after mouse is pressed down
         clickX.push(downEvent.offsetX);
         clickY.push(downEvent.offsetY);
@@ -77,7 +82,6 @@
         }
 
         if (clickX.length || clickY.length) {
-            console.log(clickX, clickY);
             //Add a value that is less than the original by one
             clickX.unshift(clickX[0] - 1);
             clickY.unshift(clickY[0] - 1);
@@ -94,13 +98,23 @@
     }
 
     const line = (downEvent: MouseEvent) => (size: number, color: string) => {
-        const pointA: Array<object> = new Array();
-        const pointB: Array<number> = new Array();
+        let mouseX;
+        let mouseY;
+        let lastMouseX = downEvent.offsetX;
+        let lastMouseY = downEvent.offsetY;
+        
+        canvas.onmouseup = (upEvent: MouseEvent) => {
+            mouseX = upEvent.offsetX;
+            mouseY = upEvent.offsetY;
 
-        pointA.push({ x: downEvent.offsetX, y: downEvent.offsetY });
+            ctx.beginPath();
+            //Move to with delta X and Y pos
+            ctx.moveTo(lastMouseX, lastMouseY);
+            ctx.lineTo(mouseX, mouseY);
+            ctx.closePath();
+            ctx.stroke();
 
-        canvas.onmousemove = (moveEvent: MouseEvent) => {
-
+            canvas.onmouseup = mouseup;
         }
     }
 
@@ -110,10 +124,7 @@
     }
 
     //Reset canvas events
-    canvas.onmouseup = () => {
-        canvas.onmousedown = null;
-        canvas.onmousemove = null;
-    }
+    canvas.onmouseup = mouseup; 
 
     canvas.onmouseleave = () => {
         canvas.onmousedown = null;
