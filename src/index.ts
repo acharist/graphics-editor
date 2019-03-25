@@ -45,7 +45,7 @@
         switch (tool) {
             case 'Brush':
                 //Call func for brush
-                brush(downEvent)(size, color);
+                brush(size, color);
                 break;
             case 'Draw line':
                 //Call func for draw line
@@ -57,13 +57,14 @@
                 break;
             case 'Draw circle':
                 //Call func for draw circle
+                circle(downEvent)(size, color);
                 break;
             default:
                 break;
         }
     }
 
-    const brush = (downEvent: MouseEvent) => (size: number, color: string) => {
+    const brush = (size: number, color: string) => {
         const clickX: Array<number> = new Array();
         const clickY: Array<number> = new Array();
 
@@ -113,7 +114,7 @@
         canvas.onmouseup = (upEvent: MouseEvent) => {
             newMouseX = upEvent.offsetX;
             newMouseY = upEvent.offsetY;
-  
+
             ctx.beginPath();
             ctx.moveTo(lastMouseX, lastMouseY);
             ctx.lineTo(lastMouseX, newMouseY);
@@ -123,6 +124,19 @@
             ctx.stroke();
 
             canvas.onmouseup = mouseup;
+        }
+    }
+
+    const circle = (downEvent: MouseEvent) => (size: number, color: string) => {
+        let radius: number = null;
+
+        canvas.onmouseup = (upEvent: MouseEvent) => {
+            //Define distance between to ponts
+            radius = Math.sqrt(Math.pow(downEvent.offsetX - upEvent.offsetX, 2) + Math.pow(downEvent.offsetY - upEvent.offsetY, 2));
+
+            ctx.beginPath();
+            ctx.arc(downEvent.offsetX, downEvent.offsetY, radius, 0, 2 * Math.PI);
+            ctx.stroke();
         }
     }
 
