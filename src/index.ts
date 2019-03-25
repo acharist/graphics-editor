@@ -13,7 +13,7 @@
     const ctx = canvas.getContext('2d');
 
     //Size % color variables with default values
-    let size: number = 10;
+    let size: number = 2;
     let color: string = '#000000';
 
     //Set canvas width & height
@@ -53,6 +53,7 @@
                 break;
             case 'Draw rectangle':
                 //Call func for draw rectangle
+                rectangle(downEvent)(size, color);
                 break;
             case 'Draw circle':
                 //Call func for draw circle
@@ -66,27 +67,12 @@
         const clickX: Array<number> = new Array();
         const clickY: Array<number> = new Array();
 
-        //Add coords of click immediately after mouse is pressed down
-        clickX.push(downEvent.offsetX);
-        clickY.push(downEvent.offsetY);
-
         const draw = (x: Array<number>, y: Array<number>) => {
-            for (let i: number = 0; i < x.length; i++) {
-                ctx.beginPath();
-                //Move to with delta X and Y pos
-                ctx.moveTo(x[i - 1], y[i - 1]);
-                ctx.lineTo(x[i], y[i]);
-                ctx.closePath();
-                ctx.stroke();
-            }
-        }
-
-        if (clickX.length || clickY.length) {
-            //Add a value that is less than the original by one
-            clickX.unshift(clickX[0] - 1);
-            clickY.unshift(clickY[0] - 1);
-            //Draw it immediately
-            draw(clickX, clickY);
+            ctx.beginPath();
+            ctx.moveTo(x[y.length - 2], y[y.length - 2]);
+            ctx.lineTo(x[x.length - 1], y[y.length - 1]);
+            ctx.closePath();
+            ctx.stroke();
         }
 
         canvas.onmousemove = (moveEvent: MouseEvent) => {
@@ -102,7 +88,7 @@
         let mouseY;
         let lastMouseX = downEvent.offsetX;
         let lastMouseY = downEvent.offsetY;
-        
+
         canvas.onmouseup = (upEvent: MouseEvent) => {
             mouseX = upEvent.offsetX;
             mouseY = upEvent.offsetY;
@@ -118,13 +104,35 @@
         }
     }
 
+    const rectangle = (downEvent: MouseEvent) => (size: number, color: string) => {
+        let newMouseX;
+        let newMouseY;
+        let lastMouseX = downEvent.offsetX;
+        let lastMouseY = downEvent.offsetY;
+
+        canvas.onmouseup = (upEvent: MouseEvent) => {
+            newMouseX = upEvent.offsetX;
+            newMouseY = upEvent.offsetY;
+  
+            ctx.beginPath();
+            ctx.moveTo(lastMouseX, lastMouseY);
+            ctx.lineTo(lastMouseX, newMouseY);
+            ctx.lineTo(newMouseX, newMouseY);
+            ctx.lineTo(newMouseX, lastMouseY);
+            ctx.lineTo(lastMouseX, lastMouseY);
+            ctx.stroke();
+
+            canvas.onmouseup = mouseup;
+        }
+    }
+
     //Clear canvas
     clearCanvasBtn.onclick = () => {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
     }
 
     //Reset canvas events
-    canvas.onmouseup = mouseup; 
+    canvas.onmouseup = mouseup;
 
     canvas.onmouseleave = () => {
         canvas.onmousedown = null;
