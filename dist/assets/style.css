@@ -1,22 +1,42 @@
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-.tools_panel {
-    margin: 0;
     padding: 0;
-
-    margin-bottom: 20px;
+    margin: 0;
+    overflow: hidden;
 }
 
-.tools_panel li {
+.tools-panel {
+    padding: 0;
+    width: auto;
+    display: inline-block;
+    position: fixed;
+    top: 50%;
+    left: 30px;
+    transform: translateY(-50%);
+    /* flex-direction: column; */
+    box-shadow: 0 0 4px rgb(223, 223, 223);
+}
+
+.tools-panel li {
+    width: 20px;
     cursor: pointer;
     list-style-type: none;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    background-color: #fff;
 }
 
-.tools_panel li:hover {
+.tools-panel li i {
+    color: rgb(39, 39, 39);
+}
+
+.tools-panel li:hover {
+    background-color:  rgb(39, 39, 39);
+}
+
+.tools-panel li:hover i  {
     color: #fff;
-    background-color: rgb(68, 116, 248)
 }
 
 .selected_container {

@@ -7,21 +7,33 @@
     <title>Typescript</title>
 
     <link rel="stylesheet" href="./assets/style.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
 </head>
 <body>
-    <ul class="tools_panel">
-        <li>Brush</li>
-        <li>Draw line</li>
-        <li>Draw rectangle</li>
-        <li>Draw circle</li> 
+    <ul class="tools-panel">
+        <li data-tool="brush">
+            <i class="fas fa-brush"></i>
+        </li>
+        <li data-tool="line">
+            <i class="fas fa-arrows-alt-v"></i>
+        </li>
+        <li data-tool="rectangle">
+            <i class="fas fa-vector-square"></i>
+        </li>
+        <li data-tool="circle">
+            <i class="far fa-circle"></i>
+        </li> 
+        <li data-tool="clean">
+            <i class="fas fa-trash-alt"></i>
+        </li> 
     </ul>
-
+<!-- 
     <button class="clear_canvas">Clear</button>
 
     <div class="selected_container">
         <b>Selected: </b>
         <span class="selected"></span>
-    </div>
+    </div> -->
 
     <canvas id="canvas"></canvas>
     <script src="bundle.js"></script>
