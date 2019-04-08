@@ -1,42 +1,34 @@
+var _this = this;
 import draggable from './draggable';
 import defineClick from './defineClick';
-
 //Tools panel DOM node
-const toolsPanel = <HTMLElement>document.querySelector('.tools-panel');
-const toolsPanelDraggable = <HTMLElement>document.querySelector('.tools-panel__draggable');
-const rect = <HTMLElement>document.querySelector('.rect');
-
+var toolsPanel = document.querySelector('.tools-panel');
+var toolsPanelDraggable = document.querySelector('.tools-panel__draggable');
+var rect = document.querySelector('.rect');
 //Selected tool DOM node
-let selected: string = null
-
+var selected = null;
 //Create canvas
-const canvas = <HTMLCanvasElement>document.getElementById('canvas');
-const ctx = canvas.getContext('2d');
-
+var canvas = document.getElementById('canvas');
+var ctx = canvas.getContext('2d');
 //Size % color variables with default values
-let size: number = 2;
-let color: string = '#000000';
-
+var size = 2;
+var color = '#000000';
 draggable(toolsPanel, toolsPanelDraggable);
 draggable(rect);
-
 //Set canvas width & height
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 // canvas.style.border = '1px solid #414141';
-
 //Set params for all tools
 ctx.strokeStyle = color;
 ctx.lineJoin = 'round';
 ctx.lineWidth = size;
-
-const mouseup = () => {
+var mouseup = function () {
     canvas.onmousedown = null;
     canvas.onmousemove = null;
-}
-
+};
 //Pass mousemove event to all child
-function applyDrawTool(tool: string, downEvent?: MouseEvent): void {
+function applyDrawTool(tool, downEvent) {
     switch (tool) {
         case 'brush':
             //Call func for brush
@@ -58,45 +50,37 @@ function applyDrawTool(tool: string, downEvent?: MouseEvent): void {
             break;
     }
 }
-
-const brush = (size: number, color: string) => {
-    const clickX: Array<number> = new Array();
-    const clickY: Array<number> = new Array();
-
-    const draw = (x: Array<number>, y: Array<number>) => {
+var brush = function (size, color) {
+    var clickX = new Array();
+    var clickY = new Array();
+    var draw = function (x, y) {
         ctx.beginPath();
         ctx.moveTo(x[y.length - 2], y[y.length - 2]);
         ctx.lineTo(x[x.length - 1], y[y.length - 1]);
         ctx.closePath();
         ctx.stroke();
-    }
-
-    canvas.onmousemove = (moveEvent: MouseEvent) => {
+    };
+    canvas.onmousemove = function (moveEvent) {
         clickX.push(moveEvent.pageX);
         clickY.push(moveEvent.pageY);
-
         draw(clickX, clickY);
     };
-}
-
-const line = (downEvent: MouseEvent) => (size: number, color: string) => {
-    const draw = (lastX: number, lastY: number, newX: number, newY: number) => {
+};
+var line = function (downEvent) { return function (size, color) {
+    var draw = function (lastX, lastY, newX, newY) {
         ctx.beginPath();
         ctx.moveTo(lastX, lastY);
         ctx.lineTo(newX, newY);
         ctx.closePath();
         ctx.stroke();
-
-    }
-
-    canvas.onmouseup = (upEvent: MouseEvent) => {
+    };
+    canvas.onmouseup = function (upEvent) {
         draw(downEvent.pageX, downEvent.pageY, upEvent.pageX, upEvent.pageY);
         canvas.onmouseup = mouseup;
-    }
-}
-
-const rectangle = (downEvent: MouseEvent) => (size: number, color: string) => {
-    const draw = (lastX: number, lastY: number, newX: number, newY: number) => {
+    };
+}; };
+var rectangle = function (downEvent) { return function (size, color) {
+    var draw = function (lastX, lastY, newX, newY) {
         ctx.beginPath();
         ctx.moveTo(lastX, lastY);
         ctx.lineTo(lastX, newY);
@@ -104,49 +88,41 @@ const rectangle = (downEvent: MouseEvent) => (size: number, color: string) => {
         ctx.lineTo(newX, lastY);
         ctx.lineTo(lastX, lastY);
         ctx.stroke();
-    }
-
-    canvas.onmouseup = (upEvent: MouseEvent) => {
+    };
+    canvas.onmouseup = function (upEvent) {
         draw(downEvent.pageX, downEvent.pageY, upEvent.pageX, upEvent.pageY);
         canvas.onmouseup = mouseup;
-    }
-}
-
-const circle = (downEvent: MouseEvent) => (size: number, color: string) => {
-    const draw = (x: number, y: number, radius: number) => {
+    };
+}; };
+var circle = function (downEvent) { return function (size, color) {
+    var draw = function (x, y, radius) {
         ctx.beginPath();
         ctx.arc(x, y, radius, 0, 2 * Math.PI);
         ctx.stroke();
-    }
-
-    canvas.onmouseup = (upEvent: MouseEvent) => {
+    };
+    canvas.onmouseup = function (upEvent) {
         //Define distance between to ponts
-        let radius: number = Math.sqrt(Math.pow(downEvent.pageX - upEvent.pageX, 2) + Math.pow(downEvent.pageY - upEvent.pageY, 2));
+        var radius = Math.sqrt(Math.pow(downEvent.pageX - upEvent.pageX, 2) + Math.pow(downEvent.pageY - upEvent.pageY, 2));
         draw(downEvent.pageX, downEvent.pageY, radius);
         canvas.onmouseup = mouseup;
-    }
-}
-
-const clean = (selected: string) => {
+    };
+}; };
+var clean = function (selected) {
     selected === 'clean' && ctx.clearRect(0, 0, canvas.width, canvas.height);
-}
-
+};
 //Set background for selected
-toolsPanel.addEventListener('click', (event: MouseEvent) => {
-    let target = event.target as HTMLElement;
-    selected = target = defineClick.apply(this, [target, 'LI']);
+toolsPanel.addEventListener('click', function (event) {
+    var target = event.target;
+    selected = target = defineClick.apply(_this, [target, 'LI']);
     clean(selected);
 });
-
 //Reset canvas events
 canvas.onmouseup = mouseup;
-
-canvas.onmouseleave = () => {
+canvas.onmouseleave = function () {
     canvas.onmousedown = null;
     canvas.onmousemove = null;
-}
-
-canvas.addEventListener('mousedown', (event: MouseEvent) => {
+};
+canvas.addEventListener('mousedown', function (event) {
     if (selected !== null) {
         applyDrawTool(selected, event);
     }
