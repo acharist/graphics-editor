@@ -21,7 +21,6 @@ draggable(toolsPanel, toolsPanelDraggable);
 //Set canvas width & height
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
-// canvas.style.border = '1px solid #414141';
 
 //Set params for all tools
 ctx.strokeStyle = color;
@@ -33,7 +32,6 @@ const mouseup = () => {
     canvas.onmousemove = null;
 }
 
-//Pass mousemove event to all child
 function applyDrawTool(tool: string, downEvent?: MouseEvent): void {
     switch (tool) {
         case 'brush':
@@ -118,7 +116,7 @@ const circle = (downEvent: MouseEvent) => (size: number, color: string) => {
     }
 
     canvas.onmouseup = (upEvent: MouseEvent) => {
-        //Define distance between to ponts
+        //Define distance between to points
         let radius: number = Math.sqrt(Math.pow(downEvent.pageX - upEvent.pageX, 2) + Math.pow(downEvent.pageY - upEvent.pageY, 2));
         draw(downEvent.pageX, downEvent.pageY, radius);
         canvas.onmouseup = mouseup;
@@ -143,7 +141,7 @@ canvas.onmouseleave = () => {
     canvas.onmousedown = null;
     canvas.onmousemove = null;
 }
-console.log('123')
+
 canvas.addEventListener('mousedown', (event: MouseEvent) => {
     if (selected !== null) {
         applyDrawTool(selected, event);
