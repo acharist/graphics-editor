@@ -1,11 +1,5 @@
 import defineClick from './defineClick';
 
-//Types
-interface ElementPos {
-    x: number,
-    y: number
-}
-
 export default function draggable(element: HTMLElement, dragElement?: HTMLElement,) {
     let selected: string = null;
     let shiftX: number = null;
@@ -18,6 +12,8 @@ export default function draggable(element: HTMLElement, dragElement?: HTMLElemen
 
     const mousedown = (event: MouseEvent) => {
         let target = event.target as HTMLElement;
+
+        //Save prev z-index
         zIndex = element.style.zIndex;
         setZIndex(element, '9999');
 
@@ -61,7 +57,7 @@ export default function draggable(element: HTMLElement, dragElement?: HTMLElemen
         element.style.zIndex = zIndex;
     }
 
-    const getCoords = (element: HTMLElement) => {   // кроме IE8-
+    const getCoords = (element: HTMLElement) => {
         const box = element.getBoundingClientRect();
         return {
             top: box.top + pageYOffset,

@@ -4,7 +4,6 @@ import defineClick from './defineClick';
 //Tools panel DOM node
 const toolsPanel = <HTMLElement>document.querySelector('.tools-panel');
 const toolsPanelDraggable = <HTMLElement>document.querySelector('.tools-panel__draggable');
-const rect = <HTMLElement>document.querySelector('.rect');
 
 //Selected tool DOM node
 let selected: string = null
@@ -18,7 +17,6 @@ let size: number = 2;
 let color: string = '#000000';
 
 draggable(toolsPanel, toolsPanelDraggable);
-draggable(rect);
 
 //Set canvas width & height
 canvas.width = window.innerWidth;
@@ -145,7 +143,7 @@ canvas.onmouseleave = () => {
     canvas.onmousedown = null;
     canvas.onmousemove = null;
 }
-
+console.log('123')
 canvas.addEventListener('mousedown', (event: MouseEvent) => {
     if (selected !== null) {
         applyDrawTool(selected, event);
