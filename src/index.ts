@@ -128,9 +128,9 @@ const clean = (selected: string) => {
 }
 
 //Set background for selected
-toolsPanel.addEventListener('click', (event: MouseEvent) => {
+toolsPanel.addEventListener('mouseup', (event: MouseEvent) => {
     let target = event.target as HTMLElement;
-    selected = target = defineClick.apply(this, [target, 'LI']);
+    selected = defineClick.apply(this, [target, 'LI']);
     clean(selected);
 });
 

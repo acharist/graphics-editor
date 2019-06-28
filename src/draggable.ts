@@ -1,7 +1,4 @@
-import defineClick from './defineClick';
-
 export default function draggable(element: HTMLElement, dragElement?: HTMLElement,) {
-    let selected: string = null;
     let shiftX: number = null;
     let shiftY: number = null;
     let zIndex: string = null;
@@ -11,17 +8,9 @@ export default function draggable(element: HTMLElement, dragElement?: HTMLElemen
     }
 
     const mousedown = (event: MouseEvent) => {
-        let target = event.target as HTMLElement;
-
         //Save prev z-index
         zIndex = element.style.zIndex;
         setZIndex(element, '9999');
-
-        try {
-            selected = defineClick.apply(this, [target, 'LI']);
-        } catch (err) {
-            selected = null;
-        }
 
         const coords = getCoords(element);
         shiftX = event.pageX - coords.left;
