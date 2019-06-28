@@ -32,13 +32,7 @@ export default function draggable(element: HTMLElement, dragElement?: HTMLElemen
     }
 
     const mousemove = (event: MouseEvent) => {
-        if(dragElement) {
-            if (selected === dragElement.dataset.tool) {
-                setPosition(element, event);
-            }
-        } else {
-            setPosition(element, event);
-        }
+        setPosition(element, event);
     }
 
     const mouseup = () => {
