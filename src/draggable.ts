@@ -1,52 +1,56 @@
-export default function draggable(element: HTMLElement, dragElement?: HTMLElement,) {
-    let shiftX: number = null;
-    let shiftY: number = null;
-    let zIndex: string = null;
+export default function draggable(
+  element: HTMLElement,
+  dragElement?: HTMLElement
+) {
+  let shiftX: number = null;
+  let shiftY: number = null;
+  let zIndex: string = null;
 
-    element.ondragstart = () => {
-        return false;
-    }
+  element.ondragstart = () => false
 
-    const mousedown = (event: MouseEvent) => {
-        //Save prev z-index
-        zIndex = element.style.zIndex;
-        setZIndex(element, '9999');
+  const mousedown = (event: MouseEvent) => {
+    // Save prev z-index
+    zIndex = element.style.zIndex;
+    setZIndex(element, "9999");
 
-        const coords = getCoords(element);
-        shiftX = event.pageX - coords.left;
-        shiftY = event.pageY - coords.top;
-        
-        document.onmousemove = mousemove;
-        document.onmouseup = mouseup;
-    }
+    const coords = getCoords(element);
+    shiftX = event.pageX - coords.left;
+    shiftY = event.pageY - coords.top;
 
-    const mousemove = (event: MouseEvent) => {
-        setPosition(element, event);
-    }
+    document.onmousemove = mousemove;
+    document.onmouseup = mouseup;
+  };
 
-    const mouseup = () => {
-        document.onmouseup = null;
-        document.onmousemove = null;
-        setZIndex(element, zIndex);
-    }
+  const mousemove = (event: MouseEvent) => {
+    setPosition(element, event);
+  };
 
-    const setPosition = (element: HTMLElement, event: MouseEvent) => {
-        element.style.zIndex = '9999';
-        element.style.left = event.pageX - shiftX + 'px';
-        element.style.top = event.pageY - shiftY + 'px';
-    }
+  const mouseup = () => {
+    document.onmouseup = null;
+    document.onmousemove = null;
+    setZIndex(element, zIndex);
+  };
 
-    const setZIndex = (element: HTMLElement, zIndex: string) => {
-        element.style.zIndex = zIndex;
-    }
+  const setPosition = (element: HTMLElement, event: MouseEvent) => {
+    element.style.zIndex = "9999";
+    element.style.left = event.pageX - shiftX + "px";
+    element.style.top = event.pageY - shiftY + "px";
+  };
 
-    const getCoords = (element: HTMLElement) => {
-        const box = element.getBoundingClientRect();
-        return {
-            top: box.top + pageYOffset,
-            left: box.left + pageXOffset
-        };
-    }
+  const setZIndex = (element: HTMLElement, zIndex: string) => {
+    element.style.zIndex = zIndex;
+  };
 
-    (dragElement ? dragElement : element).addEventListener('mousedown', mousedown);
+  const getCoords = (element: HTMLElement) => {
+    const box = element.getBoundingClientRect();
+    return {
+      top: box.top + pageYOffset,
+      left: box.left + pageXOffset,
+    };
+  };
+
+  (dragElement ? dragElement : element).addEventListener(
+    "mousedown",
+    mousedown
+  );
 }

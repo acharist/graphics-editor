@@ -1,63 +1,63 @@
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    padding: 0;
-    margin: 0;
-    overflow: hidden;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
 }
 
 .tools-panel {
-    padding: 0;
-    margin: 0;
-    width: auto;
-    display: block;
-    position: absolute;
-    top: 50%;
-    left: 30px;
-    /* transform: translateY(-50%); */
-    box-shadow: 0 0 4px rgb(223, 223, 223);
+  padding: 0;
+  margin: 0;
+  width: auto;
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 30px;
+  /* transform: translateY(-50%); */
+  box-shadow: 0 0 4px rgb(223, 223, 223);
 }
 
 .tools-panel li {
-    width: 20px;
-    cursor: pointer;
-    list-style-type: none;
-    padding: 20px;
-    display: flex;
-    justify-content: center;
-    background-color: #fff;
+  width: 20px;
+  cursor: pointer;
+  list-style-type: none;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  background-color: #fff;
 }
 
 .tools-panel li i {
-    color: rgb(39, 39, 39);
+  color: rgb(39, 39, 39);
 }
 
 .tools-panel li:not(:last-child):hover {
-    background-color:  rgb(39, 39, 39);
+  background-color: rgb(39, 39, 39);
 }
 
-.tools-panel li:not(:last-child):hover i  {
-    color: #fff;
+.tools-panel li:not(:last-child):hover i {
+  color: #fff;
 }
 
 .tools-panel .tools-panel__draggable {
-    background-color: rgb(233, 233, 233);
+  background-color: rgb(233, 233, 233);
 }
 
 .tools-panel .tools-panel__draggable i {
-    color: #fff;
+  color: #fff;
 }
 
 .selected_container {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 .clear_canvas {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 .rect {
-    width: 40px;
-    height: 40px;
-    background-color: rebeccapurple;
-    position: absolute;
+  width: 40px;
+  height: 40px;
+  background-color: rebeccapurple;
+  position: absolute;
 }
